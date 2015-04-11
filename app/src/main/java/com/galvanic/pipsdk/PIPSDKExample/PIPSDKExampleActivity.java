@@ -29,6 +29,7 @@ package com.galvanic.pipsdk.PIPSDKExample;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -59,6 +60,7 @@ public class PIPSDKExampleActivity
     public int stressedcount = 0;
     public int relaxedcount = 0;
     public int steadycount = 0;
+    public int pipreading = 0;
 	// Singleton instance of PipManager object.
 	private PipManager pipManager = null;
 	// We will only be discovering a single PIP in this app.
@@ -201,7 +203,8 @@ public class PIPSDKExampleActivity
 	// suspending.
 	@Override
 	public void onPipsResumed(int status)
-	{	
+	{
+
 	}
 
 	//*************************************************	
@@ -263,26 +266,41 @@ public class PIPSDKExampleActivity
 			// or constant.
 			if(PipAnalyzerListener.STRESS_TREND_RELAXING == currentTrendEvent){
 				textViewStatus.setText("Streaming: Relaxing");
-                relaxedcount++;
+                //relaxedcount++;
+                pipreading = 1;
+                Log.e("PIP Reading:", "Relaxing");
+                //Toast.makeText(getApplicationContext(),
+                     //   "Relaxing", Toast.LENGTH_SHORT).show();
 			}
 			else if(PipAnalyzerListener.STRESS_TREND_STRESSING == currentTrendEvent){
 				textViewStatus.setText("Streaming: Stressing");
-                stressedcount++;
+                //stressedcount++;
+                pipreading = 2;
+                //Toast.makeText(getApplicationContext(),
+                       // "Stressing", Toast.LENGTH_SHORT).show();
+                Log.e("PIP Reading:", "Stressing");
 			}
 			else{
 				// User is holding PIP and samples are being received,
 				// but the user is neither stressing nor relaxing.
 				textViewStatus.setText("Streaming: Active");
-                steadycount++;
+                //steadycount++;
+                //pipreading = 3;
+                //Log.e("PIP Reading:", "Steady");
 			}
 		}
 		else 
 		{
 			// The PIP is in the streaming state, but is not being held.
 			textViewStatus.setText("Streaming: Inactive");
+            pipreading = -1;
+            //Toast.makeText(getApplicationContext(),
+                   // "Inactive", Toast.LENGTH_SHORT).show();
+            Log.e("PIP Reading:", "Inactive");
 		}
-        Toast.makeText(getApplicationContext(),
-                Integer.toString(relaxedcount) + Integer.toString(stressedcount) + Integer.toString(steadycount), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),
+        //      Integer.toString(relaxedcount) + Integer.toString(stressedcount) + Integer.toString(steadycount), Toast.LENGTH_LONG).show();
+
 
 	}
 
